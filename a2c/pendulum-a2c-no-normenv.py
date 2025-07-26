@@ -25,7 +25,7 @@ hyperparams = {
 
 # --- rl_zoo3の設定に合わせて環境設定も変更 ---
 N_ENVS = 8
-TOTAL_TIMESTEPS = 400_000
+TOTAL_TIMESTEPS = 1_000_000
 ENV_ID = "Pendulum-v1"
 LOG_DIR = "./logs/a2c_pendulum/"
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -72,7 +72,7 @@ model = A2C(
     verbose=0,
     learning_rate=linear_schedule(7e-4),
     **hyperparams,
-    seed=43
+    seed=42
 )
 
 print("完全にrl_zoo3の設定を再現して学習を開始します...")

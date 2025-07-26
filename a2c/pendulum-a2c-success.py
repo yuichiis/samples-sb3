@@ -25,21 +25,18 @@ hyperparams = {
 
 # --- rl_zoo3の設定に合わせて環境設定も変更 ---
 N_ENVS = 8
-TOTAL_TIMESTEPS = 400_000
+TOTAL_TIMESTEPS = 1_000_000
 ENV_ID = "Pendulum-v1"
-LOG_DIR = "./logs/a2c_pendulum/"
+LOG_DIR = "./a2c_pendulum_logs_corrected/"
 os.makedirs(LOG_DIR, exist_ok=True)
 
 # --- 環境の準備（変更なし） ---
-#train_env = make_vec_env(ENV_ID, n_envs=N_ENVS, seed=42) # seedをここでも設定
-#train_env = VecNormalize(train_env, norm_obs=True, norm_reward=True, gamma=hyperparams["gamma"])
-train_env = gym.make(ENV_ID)
+train_env = make_vec_env(ENV_ID, n_envs=N_ENVS, seed=42) # seedをここでも設定
+train_env = VecNormalize(train_env, norm_obs=True, norm_reward=True, gamma=hyperparams["gamma"])
 
 # --- EvalCallbackの準備（変更なし） ---
-#eval_env = make_vec_env(ENV_ID, n_envs=1, seed=42)
-#eval_env = VecNormalize(eval_env, norm_obs=True, norm_reward=False, training=False)
-eval_env = gym.make(ENV_ID)
-
+eval_env = make_vec_env(ENV_ID, n_envs=1, seed=42)
+eval_env = VecNormalize(eval_env, norm_obs=True, norm_reward=False, training=False)
 eval_callback = EvalCallback(
     eval_env,
     best_model_save_path=LOG_DIR,
@@ -72,7 +69,7 @@ model = A2C(
     verbose=0,
     learning_rate=linear_schedule(7e-4),
     **hyperparams,
-    seed=43
+    seed=42
 )
 
 print("完全にrl_zoo3の設定を再現して学習を開始します...")
